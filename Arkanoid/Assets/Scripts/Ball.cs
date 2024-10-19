@@ -38,8 +38,11 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Brick"))
         {
-            Destroy(collision.gameObject);
-            GameManager.Instance.BlockDestroyed();
+            Brick brick = collision.gameObject.GetComponent<Brick>();
+            if(brick != null)
+            {
+                brick.TakeDamage();
+            }
 
             ballRb.velocity *= velocityMultiplayer;
         }

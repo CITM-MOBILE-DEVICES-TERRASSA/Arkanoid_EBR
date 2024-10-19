@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private int bricksLeft;
-
     public static GameManager Instance;                                                     // Crear al GameManager como singletone para evitar tener varios
 
     private void Awake()
@@ -23,19 +21,10 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        bricksLeft = GameObject.FindGameObjectsWithTag("Brick").Length;
+        
     }
 
-    public void BlockDestroyed()
-    {
-        bricksLeft--;
-        if(bricksLeft <= 0)
-        {
-            LoadNextLevel();                                                                // Si no quedan bloques carga el siguiente nivel
-        }
-    }
-
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
