@@ -43,12 +43,11 @@ public class GameManager : MonoBehaviour
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);           // Carga el siguiente nivel
         }
-        else LoadStartLevel();                                                              // Si no hay mas niveles, vuelve al nivel inicial
+        else SceneManager.LoadScene("Level 1");                                             // Si no hay mas niveles, vuelve al nivel inicial
     }
 
-    public void LoadStartLevel()
+    public void GameOver()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         SceneManager.LoadScene("Level 1");
     }
 }

@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class LoseTrigger : MonoBehaviour
 {
+    public Ball ball;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        GameManager.Instance.LoadStartLevel();
+        if (HeartManager.Instance.heartsLeft > 0)
+        {
+            HeartManager.Instance.LoseHeart();
+            ball.ResetBall();
+        }
+        else GameManager.Instance.GameOver();
     }
 }

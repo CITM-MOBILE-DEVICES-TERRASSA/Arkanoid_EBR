@@ -6,6 +6,7 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] private Vector2 initialVelocity;
     [SerializeField] private float velocityMultiplayer;
+    [SerializeField] private Transform player;
 
     private Rigidbody2D ballRb;
     private bool isBallMoving;
@@ -14,6 +15,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         ballRb = GetComponent<Rigidbody2D>();
+        ResetBall();
     }
 
 
@@ -59,5 +61,15 @@ public class Ball : MonoBehaviour
             velocityDelta = Random.value < 0.5f ? velocityDelta : -velocityDelta;
             ballRb.velocity += new Vector2(0f, velocityDelta);
         }
+    }
+
+    public void ResetBall()
+    {
+        ballRb.velocity = Vector2.zero;
+        isBallMoving = false;
+
+        transform.position = player.position + new Vector3(0f, 0.5f, 0f);
+
+        transform.parent = player;
     }
 }
