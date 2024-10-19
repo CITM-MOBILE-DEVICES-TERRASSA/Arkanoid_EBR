@@ -6,10 +6,20 @@ public class Player : MonoBehaviour
 {
     [SerializeField] private float moveSpeed;
 
+    private float bounds = 6.5f;
+
 
     void Update()
     {
+        PlayerMove();
+    }
+
+    private void PlayerMove()
+    {
         float moveInput = Input.GetAxisRaw("Horizontal");
-        transform.position += new Vector3(moveInput * moveSpeed * Time.deltaTime, 0f, 0f);
+
+        Vector2 playerPosition = transform.position;
+        playerPosition.x = Mathf.Clamp(playerPosition.x + (moveInput * moveSpeed * Time.deltaTime), -bounds, bounds);
+        transform.position = playerPosition;
     }
 }
