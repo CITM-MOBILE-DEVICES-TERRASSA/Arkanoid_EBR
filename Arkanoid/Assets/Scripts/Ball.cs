@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private float velocityMultiplayer;
+    [SerializeField] private float velocityMultiplayer = 1.01f;
     [SerializeField] private Transform player;
+    public float Seconds = 2f;
     private Vector2 initialVelocity;
 
     private Rigidbody2D ballRb;
@@ -78,5 +79,14 @@ public class Ball : MonoBehaviour
         transform.position = player.position + new Vector3(0f, 0.5f, 0f);
 
         transform.parent = player;
+
+        StartCoroutine(LaunchBallAfterDelay(Seconds));
+    }
+
+    private IEnumerator LaunchBallAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        LaunchBall();
     }
 }
