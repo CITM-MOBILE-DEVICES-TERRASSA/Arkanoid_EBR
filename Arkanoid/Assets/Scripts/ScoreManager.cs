@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class ScoreManager : MonoBehaviour
 {
     public static ScoreManager Instance;                    // Crear al BrickManager como singletone para evitar tener varios
 
     public TextMeshProUGUI scoreText;
-    private int score;
+    public TextMeshProUGUI bestScoreText;
+    private int score = 0;
+    private int bestScore;
 
     private void Awake()
     {
@@ -19,23 +22,79 @@ public class ScoreManager : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
+            LoadBestScore();
         }
     }
-
+    
     private void Start()
     {
-        score = 0;
+        if (scoreText == null)
+        {
+            scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        }
+        else if (bestScoreText == null)
+        {
+            bestScoreText = GameObject.Find("BestScoreText").GetComponent<TextMeshProUGUI>();
+        }
+
         UpdateScoreText();
     }
 
     public void AddScore(int points)
     {
         score += points;
+        if(score >= bestScore)
+        {
+            bestScore = score;
+            SaveBestScore();
+        }
         UpdateScoreText();
     }
 
     private void UpdateScoreText()                      // Actualizamos el texto de la puntuación en el UI
     {
-        scoreText.text = " "+score;
+        if (scoreText != null)
+        {
+            scoreText.text = " " + score;
+        }
+        else
+        {
+            Debug.LogWarning("ScoreText is not assigned");
+        }
+
+        if (bestScoreText != null)
+        {
+            bestScoreText.text = " " + bestScore;
+        }
+        else
+        {
+            Debug.LogWarning("BestScoreText is not assigned");
+        }
+    }
+
+    public void OnSceneLoaded()
+    {
+        if (scoreText == null)
+        {
+            scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
+        }
+        else if (bestScoreText == null)
+        {
+            bestScoreText = GameObject.Find("BestScoreText").GetComponent<TextMeshProUGUI>();
+        }
+
+        UpdateScoreText();
+    }
+
+    private void LoadBestScore()
+    {
+        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+    }
+
+    private void SaveBestScore()
+    {
+        PlayerPrefs.SetInt("BestScore", bestScore);
+        PlayerPrefs.Save();
     }
 }

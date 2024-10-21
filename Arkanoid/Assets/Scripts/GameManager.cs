@@ -21,7 +21,20 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        
+        OnSceneLoaded();
+    }
+
+    private void OnSceneLoaded()
+    {
+        if(ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OnSceneLoaded();
+        }
+
+        if(HeartManager.Instance != null)
+        {
+            HeartManager.Instance.OnSceneLoaded();
+        }
     }
 
     public void LoadNextLevel()

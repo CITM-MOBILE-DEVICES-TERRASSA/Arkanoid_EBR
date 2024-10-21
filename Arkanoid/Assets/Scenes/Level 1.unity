@@ -331,7 +331,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.86200005, y: 0.085}
   m_AnchorMax: {x: 0.86200005, y: 0.085}
-  m_AnchoredPosition: {x: -21.000065, y: 21.999987}
+  m_AnchoredPosition: {x: -21, y: 22}
   m_SizeDelta: {x: 200, y: 27.449997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &343919020
@@ -510,6 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scoreText: {fileID: 0}
+  bestScoreText: {fileID: 0}
 --- !u!4 &459793014
 Transform:
   m_ObjectHideFlags: 0
@@ -1417,7 +1418,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.86200005, y: 0.085}
   m_AnchorMax: {x: 0.86200005, y: 0.085}
-  m_AnchoredPosition: {x: -21.000013, y: -27.00004}
+  m_AnchoredPosition: {x: -21, y: -27}
   m_SizeDelta: {x: 200, y: 27.449997}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2014395516
@@ -1844,7 +1845,6 @@ SceneRoots:
   - {fileID: 6064054746414249840}
   - {fileID: 501278248}
   - {fileID: 1469313209}
-  - {fileID: 459793014}
   - {fileID: 1603426161}
   - {fileID: 922025975}
   - {fileID: 1814962294}
@@ -1858,6 +1858,7 @@ SceneRoots:
   - {fileID: 1100840940}
   - {fileID: 1384527404}
   - {fileID: 1529887949}
+  - {fileID: 459793014}
   - {fileID: 182917384}
   - {fileID: 1834437087}
   - {fileID: 1022457454}

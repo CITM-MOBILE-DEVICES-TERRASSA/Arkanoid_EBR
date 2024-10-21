@@ -8,7 +8,7 @@ public class LoseTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (HeartManager.Instance.heartsLeft > 0)
+        if (HeartManager.Instance.heartsLeft >= 1)
         {
             HeartManager.Instance.LoseHeart();
             ball.ResetBall();
