@@ -90,6 +90,7 @@ public class BrickManager : MonoBehaviour
     public void BrickDestroyed()
     {
         bricksLeft--;
+        ScoreManager.Instance.AddScore(100);
         if (bricksLeft <= 0)
         {
             GameManager.Instance.LoadNextLevel();                                                                // Si no quedan bloques carga el siguiente nivel

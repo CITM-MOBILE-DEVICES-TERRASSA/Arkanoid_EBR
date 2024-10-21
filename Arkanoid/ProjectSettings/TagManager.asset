@@ -8,6 +8,7 @@ TagManager:
   - Wall
   - Brick
   - Heart
+  - Score
   layers:
   - Default
   - TransparentFX

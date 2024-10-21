@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private Vector2 initialVelocity;
     [SerializeField] private float velocityMultiplayer;
     [SerializeField] private Transform player;
+    private Vector2 initialVelocity;
 
     private Rigidbody2D ballRb;
     private bool isBallMoving;
@@ -30,6 +30,10 @@ public class Ball : MonoBehaviour
     private void LaunchBall()                                                           // Quitar a la bola del parent del player
     {
         transform.parent = null;
+
+        initialVelocity = new Vector2(Random.Range(-4, 4), 6);
+        Debug.Log("Initial Velocity: " + initialVelocity);
+
         ballRb.velocity = initialVelocity;
         isBallMoving = true;
     }
