@@ -30,8 +30,7 @@ public class Player : MonoBehaviour
     {
         if (isAutoPlaying && ball != null)
         {
-            // Calcular la dirección hacia la bola
-            moveInput = ball.transform.position.x > transform.position.x ? 1 : -1;
+            moveInput = ball.transform.position.x > transform.position.x ? 1 : -1;                                          // Calcular la dirección hacia la bola
         }
         else
         {

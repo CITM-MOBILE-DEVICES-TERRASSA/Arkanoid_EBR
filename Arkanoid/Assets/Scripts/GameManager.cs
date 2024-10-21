@@ -7,6 +7,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;                                                     // Crear al GameManager como singletone para evitar tener varios
 
+    public enum GameState { Menu, Playing, Paused, GameOver}
+    public GameState currentState;
+
+
     private void Awake()
     {
         if(Instance != null && Instance != this)
@@ -16,12 +20,13 @@ public class GameManager : MonoBehaviour
         else
         {
             Instance = this;
+            OnSceneLoaded();
         }
     }
 
     private void Start()
     {
-        OnSceneLoaded();
+        currentState = GameState.Menu;                                                      // Estado inicial
     }
 
     private void OnSceneLoaded()
@@ -35,10 +40,18 @@ public class GameManager : MonoBehaviour
         {
             HeartManager.Instance.OnSceneLoaded();
         }
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.OnSceneLoaded();
+        }
+
+        UpdateUI();
     }
 
     public void LoadNextLevel()
     {
+        currentState = GameState.Playing;
         int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
         if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
@@ -48,8 +61,56 @@ public class GameManager : MonoBehaviour
         else SceneManager.LoadScene("Level 1");                                             // Si no hay mas niveles, vuelve al nivel inicial
     }
 
-    public void GameOver()
+    public void NewGame()
     {
         SceneManager.LoadScene("Level 1");
+        currentState = GameState.Playing;
+        Time.timeScale = 1;
+        UpdateUI();
+    }
+
+    public void GameOver()
+    {
+        currentState = GameState.GameOver;
+        UpdateUI();
+    }
+
+    public void PauseGame()
+    {
+        currentState = GameState.Paused;                                                    // Cambiar estado a Pausado
+        Time.timeScale = 0;                                                                 // Pausar el tiempo
+        UpdateUI();
+    }
+
+    public void ResumeGame()
+    {
+        currentState = GameState.Playing;                                                   // Cambiar estado a Jugando
+        Time.timeScale = 1;                                                                 // Reanudar el tiempo
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+                                                                                            // Actualiza la UI según el estado del juego
+        if (currentState == GameState.Menu)
+        {
+            UIManager.Instance.HideAllPanels();
+            UIManager.Instance.ShowMainMenu();
+        }
+        else if (currentState == GameState.Playing)
+        {
+            UIManager.Instance.HideAllPanels();
+            UIManager.Instance.ResumeGame();
+        }
+        else if (currentState == GameState.Paused)
+        {
+            UIManager.Instance.HideAllPanels();
+            UIManager.Instance.ShowPauseMenu();
+        }
+        else if (currentState == GameState.GameOver)
+        {
+            UIManager.Instance.HideAllPanels();
+            UIManager.Instance.ShowGameOver();
+        }
     }
 }

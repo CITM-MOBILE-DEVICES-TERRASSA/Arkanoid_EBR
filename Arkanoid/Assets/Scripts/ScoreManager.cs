@@ -29,16 +29,7 @@ public class ScoreManager : MonoBehaviour
     
     private void Start()
     {
-        if (scoreText == null)
-        {
-            scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
-        }
-        else if (bestScoreText == null)
-        {
-            bestScoreText = GameObject.Find("BestScoreText").GetComponent<TextMeshProUGUI>();
-        }
-
-        UpdateScoreText();
+        OnSceneLoaded();
     }
 
     public void AddScore(int points)
