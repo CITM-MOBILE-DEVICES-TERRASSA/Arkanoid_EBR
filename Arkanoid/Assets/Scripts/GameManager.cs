@@ -5,38 +5,127 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance;                                                     // Crear al GameManager como singletone para evitar tener varios
+    public static GameManager Instance;
 
-    public enum GameState { Menu, Playing, Paused, GameOver}
+    public enum GameState { Menu, Playing, Paused, GameOver, LevelComplete }
     public GameState currentState;
-
+    private GameState auxState;
+    private bool isGamePaused = false;
 
     private void Awake()
     {
-        if(Instance != null && Instance != this)
+        if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
         else
         {
             Instance = this;
-            OnSceneLoaded();
+            DontDestroyOnLoad(gameObject);
         }
     }
 
     private void Start()
     {
-        currentState = GameState.Menu;                                                      // Estado inicial
+        currentState = GameState.Menu;
+        UpdateUI();
     }
 
-    private void OnSceneLoaded()
+    // Se asegura de que OnSceneLoaded se llame al terminar de cargar una nueva escena
+    private void OnEnable()
     {
-        if(ScoreManager.Instance != null)
+        SceneManager.sceneLoaded += OnSceneLoaded; // Suscribir al evento de carga de escena
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded; // Desuscribir para evitar errores si el objeto se destruye
+    }
+
+    public void LoadNextLevel()
+    {
+        currentState = GameState.LevelComplete;
+        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+
+        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(nextSceneIndex);
+        }
+        else
+        {
+            SceneManager.LoadScene("Level 1");  // Reinicia al primer nivel
+        }
+    }
+
+    public void NewGame()
+    {
+        SceneManager.LoadScene("Level 1");
+        currentState = GameState.Playing;
+        Time.timeScale = 1;
+    }
+
+    public void GameOver()
+    {
+        currentState = GameState.GameOver;
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void ToglePause()
+    {
+        if (!isGamePaused)
+        {
+            isGamePaused = true;
+            auxState = currentState;
+            currentState = GameState.Paused;
+            Time.timeScale = 0;
+        }
+        else
+        {
+            isGamePaused = false;
+            currentState = auxState;
+            Time.timeScale = 1;
+        }
+
+        UpdateUI();
+        Debug.Log("Game Paused");
+    }
+
+    private void UpdateUI()
+    {
+        if (UIManager.Instance != null)
+        {
+            switch (currentState)
+            {
+                case GameState.Menu:
+                    UIManager.Instance.ShowMainMenu();
+                    break;
+                case GameState.Playing:
+                    UIManager.Instance.HideAllPanels();
+                    break;
+                case GameState.Paused:
+                    UIManager.Instance.ToglePauseMenu();
+                    break;
+                case GameState.GameOver:
+                    UIManager.Instance.ShowGameOver();
+                    break;
+                case GameState.LevelComplete:
+                    UIManager.Instance.ShowLevelComplete();
+                    break;
+            }
+        }
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Scene loaded: " + scene.name);
+        UpdateUI(); // Sincronizar UI con el nuevo estado del juego
+
+        if (ScoreManager.Instance != null)
         {
             ScoreManager.Instance.OnSceneLoaded();
         }
 
-        if(HeartManager.Instance != null)
+        if (HeartManager.Instance != null)
         {
             HeartManager.Instance.OnSceneLoaded();
         }
@@ -45,72 +134,6 @@ public class GameManager : MonoBehaviour
         {
             UIManager.Instance.OnSceneLoaded();
         }
-
-        UpdateUI();
-    }
-
-    public void LoadNextLevel()
-    {
-        currentState = GameState.Playing;
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
-
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);           // Carga el siguiente nivel
-        }
-        else SceneManager.LoadScene("Level 1");                                             // Si no hay mas niveles, vuelve al nivel inicial
-    }
-
-    public void NewGame()
-    {
-        SceneManager.LoadScene("Level 1");
-        currentState = GameState.Playing;
-        Time.timeScale = 1;
-        UpdateUI();
-    }
-
-    public void GameOver()
-    {
-        currentState = GameState.GameOver;
-        UpdateUI();
-    }
-
-    public void PauseGame()
-    {
-        currentState = GameState.Paused;                                                    // Cambiar estado a Pausado
-        Time.timeScale = 0;                                                                 // Pausar el tiempo
-        UpdateUI();
-    }
-
-    public void ResumeGame()
-    {
-        currentState = GameState.Playing;                                                   // Cambiar estado a Jugando
-        Time.timeScale = 1;                                                                 // Reanudar el tiempo
-        UpdateUI();
-    }
-
-    private void UpdateUI()
-    {
-                                                                                            // Actualiza la UI según el estado del juego
-        if (currentState == GameState.Menu)
-        {
-            UIManager.Instance.HideAllPanels();
-            UIManager.Instance.ShowMainMenu();
-        }
-        else if (currentState == GameState.Playing)
-        {
-            UIManager.Instance.HideAllPanels();
-            UIManager.Instance.ResumeGame();
-        }
-        else if (currentState == GameState.Paused)
-        {
-            UIManager.Instance.HideAllPanels();
-            UIManager.Instance.ShowPauseMenu();
-        }
-        else if (currentState == GameState.GameOver)
-        {
-            UIManager.Instance.HideAllPanels();
-            UIManager.Instance.ShowGameOver();
-        }
     }
 }
+

@@ -1,20 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;                    // Crear al UIManager como singletone para evitar tener varios
-
+    public static UIManager Instance;
 
     public GameObject mainMenuPanel;
     public GameObject pauseMenuPanel;
     public GameObject gameOverPanel;
     public GameObject levelCompletePanel;
     public GameObject pauseButton;
-    public GameObject resumeButton;
 
+    private bool isPauseActive = false;
 
     private void Awake()
     {
@@ -25,63 +24,77 @@ public class UIManager : MonoBehaviour
         else
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+            DontDestroyOnLoad(gameObject);  // No destruir el UIManager al cambiar de escena
         }
-    }
-
-    private void Start()
-    {
-        OnSceneLoaded();
-        ShowMainMenu();
     }
 
     public void HideAllPanels()
     {
-        mainMenuPanel.SetActive(false);
-        pauseMenuPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        levelCompletePanel.SetActive(false);
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(false);
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(false);
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+        if (levelCompletePanel != null) levelCompletePanel.SetActive(false);
     }
 
     public void ShowMainMenu()
     {
-        mainMenuPanel.SetActive(true);
-        pauseMenuPanel.SetActive(false);
-        gameOverPanel.SetActive(false);
-        levelCompletePanel.SetActive(false);
+        HideAllPanels();
+        if (mainMenuPanel != null) mainMenuPanel.SetActive(true);
     }
 
-    public void ShowPauseMenu()
+    public void ToglePauseMenu()
     {
-        pauseMenuPanel.SetActive(true);
-        Time.timeScale = 0;
+        isPauseActive = !isPauseActive;
+        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(isPauseActive);
+        Time.timeScale = isPauseActive ? 0 : 1;  // Pausar/Reanudar el tiempo
     }
 
     public void ShowGameOver()
     {
-        gameOverPanel.SetActive(true);
-        Time.timeScale = 0; 
+        HideAllPanels();
+        if (gameOverPanel != null) gameOverPanel.SetActive(true);
     }
 
     public void ShowLevelComplete()
     {
-        levelCompletePanel.SetActive(true);
-        Time.timeScale = 0;
+        HideAllPanels();
+        if (levelCompletePanel != null) levelCompletePanel.SetActive(true);
     }
 
-    public void ResumeGame()
-    {
-        pauseButton.SetActive(true);
-        Time.timeScale = 1;
-    }
-
+    // Método para encontrar los paneles automáticamente después de que la escena haya sido cargada
     public void OnSceneLoaded()
     {
+        StartCoroutine(InitializeUIAfterSceneLoad()); // Esperar un frame para asegurarse de que la escena está completamente cargada
+    }
+
+    private IEnumerator InitializeUIAfterSceneLoad()
+    {
+        yield return null;  // Espera un frame antes de intentar buscar los paneles
+
+        // Buscamos cada panel usando GameObject.Find para asignarlos automáticamente
         mainMenuPanel = GameObject.Find("MainMenuPanel");
         pauseMenuPanel = GameObject.Find("PauseMenuPanel");
         gameOverPanel = GameObject.Find("GameOverPanel");
         levelCompletePanel = GameObject.Find("LevelCompletePanel");
         pauseButton = GameObject.Find("PauseButton");
-        resumeButton = GameObject.Find("resumeButton");
+
+        // Asignar el botón de pausa al método del GameManager
+        if (pauseButton != null)
+        {
+            Debug.Log("Pause Button Found, assigning function...");
+            Button btn = pauseButton.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();  // Asegurarse de limpiar los oyentes anteriores
+                btn.onClick.AddListener(GameManager.Instance.ToglePause);  // Asignar el método
+            }
+        }
+
+        // Asegurarse de que los paneles están ocultos cuando se carga la escena
+        HideAllPanels();
+    }
+    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(2f);
     }
 }

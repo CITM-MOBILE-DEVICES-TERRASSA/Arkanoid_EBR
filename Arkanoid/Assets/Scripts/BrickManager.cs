@@ -28,7 +28,7 @@ public class BrickManager : MonoBehaviour
         GameObject[] bricks = GameObject.FindGameObjectsWithTag("Brick");
         bricksLeft = bricks.Length;
 
-        Debug.Log($"Total bricks found: {bricksLeft}");
+        //Debug.Log($"Total bricks found: {bricksLeft}");
 
         foreach (GameObject brick in bricks)
         {
@@ -51,7 +51,7 @@ public class BrickManager : MonoBehaviour
             if(spriteRenderer != null)
             {
                 spriteRenderer.color = GetColorByHealth(brickComponent.health);
-                Debug.Log($"Assigned color: {spriteRenderer.color} to brick with health: {brickComponent.health}");
+                //Debug.Log($"Assigned color: {spriteRenderer.color} to brick with health: {brickComponent.health}");
             }
         }
     }
@@ -65,7 +65,7 @@ public class BrickManager : MonoBehaviour
         if (spriteRenderer != null)
         {
             spriteRenderer.color = GetColorByHealth(brickComponent.health);
-            Debug.Log($"Assigned color: {spriteRenderer.color} to brick with health: {brickComponent.health}");
+            //Debug.Log($"Assigned color: {spriteRenderer.color} to brick with health: {brickComponent.health}");
         }
     }
 
