@@ -45,8 +45,11 @@ public class UIManager : MonoBehaviour
     public void ToglePauseMenu()
     {
         isPauseActive = !isPauseActive;
-        if (pauseMenuPanel != null) pauseMenuPanel.SetActive(isPauseActive);
-        Time.timeScale = isPauseActive ? 0 : 1;  // Pausar/Reanudar el tiempo
+        if (pauseMenuPanel != null)
+        {
+            pauseMenuPanel.SetActive(isPauseActive);
+            Time.timeScale = isPauseActive ? 0 : 1; // Pausar/Reanudar el tiempo
+        }
     }
 
     public void ShowGameOver()

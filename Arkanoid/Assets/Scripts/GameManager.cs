@@ -118,17 +118,17 @@ public class GameManager : MonoBehaviour
             isGamePaused = true;
             auxState = currentState;
             currentState = GameState.Paused;
-            Time.timeScale = 0;
+            Time.timeScale = 0; // Pausar el juego
         }
         else
         {
             isGamePaused = false;
             currentState = auxState;
-            Time.timeScale = 1;
+            Time.timeScale = 1; // Reanudar el juego
         }
 
         UpdateUI();
-        Debug.Log("Game Paused");
+        Debug.Log(isGamePaused ? "Game Paused" : "Game Resumed");
     }
 
     private void UpdateUI()
