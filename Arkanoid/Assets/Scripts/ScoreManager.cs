@@ -13,6 +13,7 @@ public class ScoreManager : MonoBehaviour
     private int score = 0;
     private int bestScore;
 
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -23,7 +24,6 @@ public class ScoreManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            LoadBestScore();
         }
     }
     
@@ -38,7 +38,6 @@ public class ScoreManager : MonoBehaviour
         if(score >= bestScore)
         {
             bestScore = score;
-            SaveBestScore();
         }
         UpdateScoreText();
     }
@@ -66,26 +65,60 @@ public class ScoreManager : MonoBehaviour
 
     public void OnSceneLoaded()
     {
+        StartCoroutine(InitializeUIAfterSceneLoad());
+    }
+
+    private IEnumerator InitializeUIAfterSceneLoad()
+    {
+        // Espera un frame antes de intentar buscar los paneles
+        yield return null;
+
+        // Intenta encontrar el ScoreText
         if (scoreText == null)
         {
-            scoreText = GameObject.Find("ScoreText").GetComponent<TextMeshProUGUI>();
-        }
-        else if (bestScoreText == null)
-        {
-            bestScoreText = GameObject.Find("BestScoreText").GetComponent<TextMeshProUGUI>();
+            scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
         }
 
+        // Intenta encontrar el BestScoreText
+        if (bestScoreText == null)
+        {
+            bestScoreText = GameObject.Find("BestScoreText")?.GetComponent<TextMeshProUGUI>();
+        }
+
+        // Verifica si los textos han sido encontrados
+        if (scoreText == null)
+        {
+            Debug.LogWarning("ScoreText is not assigned or found in the scene.");
+        }
+
+        if (bestScoreText == null)
+        {
+            Debug.LogWarning("BestScoreText is not assigned or found in the scene.");
+        }
+
+        // Actualiza la UI
         UpdateScoreText();
     }
 
-    private void LoadBestScore()
+    public int GetScore()
     {
-        bestScore = PlayerPrefs.GetInt("BestScore", 0);
+        return score;
     }
 
-    private void SaveBestScore()
+    public int GetBestScore()
     {
-        PlayerPrefs.SetInt("BestScore", bestScore);
-        PlayerPrefs.Save();
+        return bestScore;
+    }
+
+    public void SetScore(int newScore)
+    {
+        score = newScore; // Establece el puntaje actual
+        UpdateScoreText(); // Actualiza el UI
+    }
+
+    public void SetBestScore(int newBestScore)
+    {
+        bestScore = newBestScore; // Establece el mejor puntaje
+        UpdateScoreText(); // Actualiza el UI
     }
 }
