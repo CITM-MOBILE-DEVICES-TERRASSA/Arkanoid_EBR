@@ -23,7 +23,7 @@ public class Brick : MonoBehaviour
         if (health <= 0)
         {
             Destroy(gameObject);
-            BrickManager.Instance.BrickDestroyed();
+            BrickManager.Instance.BrickDestroyed(gameObject);
         }
         else BrickManager.Instance.CheckColor(gameObject);
     }

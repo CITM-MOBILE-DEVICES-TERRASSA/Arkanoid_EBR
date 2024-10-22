@@ -161,6 +161,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb74a6ab38a63d04ab0c35d466e6d714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialVelocity: {x: 4, y: 6}
   velocityMultiplayer: 1
-  player: {fileID: 0}
+  player: {fileID: 3970818943701986224, guid: cf9419672cdae314d924532477d702b8, type: 3}
+  Seconds: 2

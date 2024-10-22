@@ -4,12 +4,30 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance;
+
     [SerializeField] private float moveSpeed;
 
     private float bounds = 6.5f;
     private bool isAutoPlaying = false;
     private Ball ball;
     private float moveInput;
+
+    public GameObject ballPrefab; // Prefab de la pelota a disparar
+    public Transform shootPoint; // Punto desde donde se dispara la pelota
+
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
+    }
 
     private void Start()
     {
@@ -40,5 +58,11 @@ public class Player : MonoBehaviour
         Vector2 playerPosition = transform.position;
         playerPosition.x = Mathf.Clamp(playerPosition.x + (moveInput * moveSpeed * Time.deltaTime), -bounds, bounds);
         transform.position = playerPosition;
+    }
+
+    public void CreateSecondBall()
+    {
+        shootPoint.position = transform.position + new Vector3(0f, 0.5f, 0f);
+        Instantiate(ballPrefab, shootPoint.position, Quaternion.identity);                                                  // Crea una nueva pelota
     }
 }
