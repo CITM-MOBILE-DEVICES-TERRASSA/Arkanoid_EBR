@@ -70,34 +70,22 @@ public class ScoreManager : MonoBehaviour
 
     private IEnumerator InitializeUIAfterSceneLoad()
     {
-        // Espera un frame antes de intentar buscar los paneles
-        yield return null;
+        yield return null; // Espera un fotograma
 
-        // Intenta encontrar el ScoreText
+        scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
+        bestScoreText = GameObject.Find("BestScoreText")?.GetComponent<TextMeshProUGUI>();
+
         if (scoreText == null)
         {
-            scoreText = GameObject.Find("ScoreText")?.GetComponent<TextMeshProUGUI>();
-        }
-
-        // Intenta encontrar el BestScoreText
-        if (bestScoreText == null)
-        {
-            bestScoreText = GameObject.Find("BestScoreText")?.GetComponent<TextMeshProUGUI>();
-        }
-
-        // Verifica si los textos han sido encontrados
-        if (scoreText == null)
-        {
-            Debug.LogWarning("ScoreText is not assigned or found in the scene.");
+            Debug.LogWarning("ScoreText is not found in the scene.");
         }
 
         if (bestScoreText == null)
         {
-            Debug.LogWarning("BestScoreText is not assigned or found in the scene.");
+            Debug.LogWarning("BestScoreText is not found in the scene.");
         }
 
-        // Actualiza la UI
-        UpdateScoreText();
+        UpdateScoreText(); // Actualiza el texto al final
     }
 
     public int GetScore()

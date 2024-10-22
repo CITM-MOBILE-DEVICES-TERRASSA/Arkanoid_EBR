@@ -161,11 +161,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("Scene loaded: " + scene.name);
         UpdateUI(); // Sincronizar UI con el nuevo estado del juego
 
-        if (ScoreManager.Instance != null)
-        {
-            ScoreManager.Instance.OnSceneLoaded();
-        }
-
         if (HeartManager.Instance != null)
         {
             HeartManager.Instance.OnSceneLoaded();
@@ -174,6 +169,11 @@ public class GameManager : MonoBehaviour
         if (UIManager.Instance != null)
         {
             UIManager.Instance.OnSceneLoaded();
+        }
+
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OnSceneLoaded();
         }
     }
 }
