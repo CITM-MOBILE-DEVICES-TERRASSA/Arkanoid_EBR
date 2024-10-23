@@ -25,8 +25,6 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            scoreManager = GetComponent<ScoreManager>();
-            saveManager = GetComponent<SaveManager>();
         }
     }
 
@@ -39,37 +37,43 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
+        Debug.Log("Entering SaveGame");
+        Debug.Log(ScoreManager.Instance.GetScore());
+        Debug.Log(ScoreManager.Instance.GetBestScore());
         GameData data = new GameData
         {
-            score = scoreManager.GetScore(), // Asegúrate de tener un método GetScore en ScoreManager
-            bestScore = scoreManager.GetBestScore(), // Método para obtener el mejor puntaje
-            //playerLives = HeartManager.Instance.GetLives(), // Suponiendo que tienes un método para obtener vidas
-            //playerPositionX = Player.Instance.transform.position.x, // Suponiendo que tienes una referencia al jugador
+            score = ScoreManager.Instance.GetScore(),
+            bestScore = ScoreManager.Instance.GetBestScore()
+            //playerLives = HeartManager.Instance.GetLives(),
+            //playerPositionX = Player.Instance.transform.position.x,
             //playerPositionY = Player.Instance.transform.position.y,
-            currentLevel = SceneManager.GetActiveScene().name
+            //currentLevel = SceneManager.GetActiveScene().name
         };
 
-        Debug.Log(data);
+        Debug.Log("Score: " + data.score);
+        Debug.Log("Score: " + data.bestScore);
 
-        saveManager.SaveGame(data); // Guarda todos los datos usando SaveManager
+        SaveManager.Instance.SaveGame(data); // Guarda todos los datos usando SaveManager
     }
 
     public void LoadGame()
     {
-        GameData data = saveManager.LoadGame(); // Cargar datos del SaveManager
+        GameData data = SaveManager.Instance.LoadGame(); // Cargar datos del SaveManager
         if (data != null)
         {
-            scoreManager.SetScore(data.score); // Método para establecer la puntuación
-            scoreManager.SetBestScore(data.bestScore); // Método para establecer el mejor puntaje
-            //HeartManager.Instance.SetLives(data.playerLives); // Método para establecer vidas
-            //Player.Instance.transform.position = new Vector3(data.playerPositionX, data.playerPositionY, 0); // Mover al jugador a la posición guardada
-            //SceneManager.LoadScene(data.currentLevel); // Cargar la escena guardada
+            ScoreManager.Instance.SetScore(data.score);
+            ScoreManager.Instance.SetBestScore(data.bestScore);
+            //HeartManager.Instance.SetLives(data.playerLives);
+            //Player.Instance.transform.position = new Vector3(data.playerPositionX, data.playerPositionY, 0);
+            //SceneManager.LoadScene(data.currentLevel);
         }
     }
 
     private void OnApplicationQuit()
     {
+        Debug.Log("Calling SaveGame");
         SaveGame(); // Guardar automáticamente al salir
+        Debug.Log("SaveGame Finished");
     }
 
     // Se asegura de que OnSceneLoaded se llame al terminar de cargar una nueva escena

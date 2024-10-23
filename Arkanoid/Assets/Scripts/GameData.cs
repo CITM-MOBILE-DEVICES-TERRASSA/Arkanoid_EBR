@@ -1,12 +1,13 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class GameData
 {
-    public int playerLives;
+    //public int playerLives;
     public int score;
     public int bestScore;
-    public float playerPositionX;
-    public float playerPositionY;
-    public string currentLevel;
+    //public float playerPositionX;
+    //public float playerPositionY;
+    //public string currentLevel;
 }
