@@ -51,6 +51,8 @@ public class ExtraBall : MonoBehaviour
 
             ballRb.velocity *= velocityMultiplayer;
         }
+
+        AudioManager.Instance.PlaySFX(0);
         VelocityFix();
     }
 

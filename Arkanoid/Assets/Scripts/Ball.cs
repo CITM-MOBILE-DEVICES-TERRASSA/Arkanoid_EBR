@@ -51,6 +51,8 @@ public class Ball : MonoBehaviour
 
             ballRb.velocity *= velocityMultiplayer;
         }
+
+        AudioManager.Instance.PlaySFX(0);                                               // Reproducir efecto de sonido para la colisión de la pelota
         VelocityFix();
     }
 
