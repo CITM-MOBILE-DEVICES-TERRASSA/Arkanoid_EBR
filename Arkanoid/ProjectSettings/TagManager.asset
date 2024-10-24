@@ -9,6 +9,8 @@ TagManager:
   - Brick
   - Heart
   - Score
+  - PowerUpBall
+  - ExtraBall
   layers:
   - Default
   - TransparentFX

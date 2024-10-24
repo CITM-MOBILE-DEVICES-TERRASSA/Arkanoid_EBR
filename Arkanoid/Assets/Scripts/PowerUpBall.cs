@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PowerUpBall : MonoBehaviour
 {
-    public float fallSpeed = 2f; // Velocidad de caída
-    public float lifeTime = 5f; // Tiempo de vida de la pelota
+    public float fallSpeed = 1f; // Velocidad de caída
+    public float lifeTime = 8f; // Tiempo de vida de la pelota
 
     private void Start()
     {

@@ -191,7 +191,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 1
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 1389286313}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -797,6 +797,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  isGamePaused: 0
 --- !u!4 &345969612
 Transform:
   m_ObjectHideFlags: 0
@@ -1973,6 +1974,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &1389286313 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 9198519855381090491, guid: 132e668a64a66c3448e33194ac998281, type: 3}
+  m_PrefabInstance: {fileID: 1943516100}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1428161413
 PrefabInstance:
   m_ObjectHideFlags: 0

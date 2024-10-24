@@ -6,7 +6,7 @@ public class ExtraBall : MonoBehaviour
 {
     [SerializeField] private float velocityMultiplayer = 1.01f;
     [SerializeField] private Transform player;
-    public float Seconds = 2f;
+    public float Seconds = 1f;
     private Vector2 initialVelocity;
 
     private Rigidbody2D ballRb;

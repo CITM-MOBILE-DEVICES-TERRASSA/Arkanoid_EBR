@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class HeartManager : MonoBehaviour
 {
-    public static HeartManager Instance;                                                     // Crear al HeartManager como singletone para evitar tener varios
+    public static HeartManager Instance;  // Singleton del HeartManager
+    public GameObject[] heartIcons;       // Array de íconos de corazones
 
-    public GameObject[] heartIcons;
-
-    public int heartsLeft;
-
+    public int heartsLeft = 3;
 
     private void Awake()
     {
@@ -26,39 +24,33 @@ public class HeartManager : MonoBehaviour
 
     private void Start()
     {
+        // Establecer el número de corazones restantes basado en el número de íconos activos
         heartsLeft = heartIcons.Length;
+        UpdateHeartIcons(); // Asegurarse de que los íconos se muestren correctamente al inicio
     }
 
     public void LoseHeart()
     {
-        if(heartsLeft > 0)
+        if (heartsLeft > 0)
         {
             heartsLeft--;
-            heartIcons[heartsLeft].SetActive(false);
-
-            Debug.Log("Hearts Left: " +  heartsLeft);
+            heartIcons[heartsLeft].SetActive(false); // Desactivar el último corazón
+            Debug.Log("Hearts Left: " + heartsLeft);
         }
     }
 
     private void UpdateHeartIcons()
     {
+        // Mostrar u ocultar los corazones según el número de vidas restantes
         for (int i = 0; i < heartIcons.Length; i++)
         {
-
-            if (i < heartsLeft)
-            {
-                heartIcons[i].SetActive(true);                      // Mostramos los corazones que quedan
-            }
-            else
-            {
-                heartIcons[i].SetActive(false);                     // Ocultamos los que ya no quedan
-            }
+            heartIcons[i].SetActive(i < heartsLeft); // Activa si i es menor que las vidas restantes
         }
-
     }
 
     public void OnSceneLoaded()
     {
+        // Si necesitas actualizar los corazones al cargar una nueva escena
         heartIcons = new GameObject[]
         {
             GameObject.Find("Heart"),
@@ -66,6 +58,6 @@ public class HeartManager : MonoBehaviour
             GameObject.Find("Heart (2)")
         };
 
-        UpdateHeartIcons();
+        UpdateHeartIcons(); // Actualizar los íconos después de cargar la escena
     }
 }

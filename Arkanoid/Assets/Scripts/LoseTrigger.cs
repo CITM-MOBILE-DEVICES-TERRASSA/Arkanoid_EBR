@@ -12,12 +12,12 @@ public class LoseTrigger : MonoBehaviour
         if (collision.CompareTag("Ball"))
         {
             // Verificar si hay corazones restantes
-            if (HeartManager.Instance.heartsLeft >= 1)
+            if (HeartManager.Instance.heartsLeft > 1)
             {
                 HeartManager.Instance.LoseHeart();
                 ball.ResetBall();  // Resetea la pelota principal
             }
-            else
+            else if (HeartManager.Instance.heartsLeft <= 1)
             {
                 GameManager.Instance.GameOver();  // Llamar al game over si no quedan corazones
             }

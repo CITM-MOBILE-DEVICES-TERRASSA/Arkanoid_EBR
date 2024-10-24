@@ -64,7 +64,7 @@ public class UIManager : MonoBehaviour
     {
         HideAllPanels();
         if (levelCompletePanel != null) levelCompletePanel.SetActive(true);
-        StartCoroutine(LevelCompleteDelay());
+        //StartCoroutine(LevelCompleteDelay());
     }
 
     // Método para encontrar los paneles automáticamente después de que la escena haya sido cargada
