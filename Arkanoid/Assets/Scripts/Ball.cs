@@ -51,6 +51,7 @@ public class Ball : MonoBehaviour
 
             ballRb.velocity *= velocityMultiplayer;
         }
+        VelocityFix();
     }
 
     private void VelocityFix()                                                          // Fix para arreglar que la bola se quede rebotando infinitamente

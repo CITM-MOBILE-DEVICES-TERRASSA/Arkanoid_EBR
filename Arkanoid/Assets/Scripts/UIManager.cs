@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -13,7 +14,7 @@ public class UIManager : MonoBehaviour
     public GameObject levelCompletePanel;
     public GameObject pauseButton;
 
-    private bool isPauseActive = false;
+    public bool isPauseActive = false;
 
     private void Awake()
     {
@@ -44,11 +45,11 @@ public class UIManager : MonoBehaviour
 
     public void ToglePauseMenu()
     {
-        isPauseActive = !isPauseActive;
+        Debug.Log("Game Paused: " + GameManager.Instance.isGamePaused);
         if (pauseMenuPanel != null)
         {
-            pauseMenuPanel.SetActive(isPauseActive);
-            Time.timeScale = isPauseActive ? 0 : 1; // Pausar/Reanudar el tiempo
+            pauseMenuPanel.SetActive(GameManager.Instance.isGamePaused);
+            Time.timeScale = GameManager.Instance.isGamePaused ? 0 : 1; // Pausar/Reanudar el tiempo
         }
     }
 
@@ -56,12 +57,14 @@ public class UIManager : MonoBehaviour
     {
         HideAllPanels();
         if (gameOverPanel != null) gameOverPanel.SetActive(true);
+        StartCoroutine(GameOverDelay());
     }
 
     public void ShowLevelComplete()
     {
         HideAllPanels();
         if (levelCompletePanel != null) levelCompletePanel.SetActive(true);
+        StartCoroutine(LevelCompleteDelay());
     }
 
     // Método para encontrar los paneles automáticamente después de que la escena haya sido cargada
@@ -96,8 +99,21 @@ public class UIManager : MonoBehaviour
         // Asegurarse de que los paneles están ocultos cuando se carga la escena
         HideAllPanels();
     }
-    private IEnumerator Delay()
+    private IEnumerator GameOverDelay()
     {
+        Debug.Log("!!!!!! Delay !!!!!!! -----> 2 seconds left");
         yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("Menu");
+        GameManager.Instance.currentState = GameManager.GameState.Menu;
+    }
+
+    private IEnumerator LevelCompleteDelay()
+    {
+        Debug.Log("!!!!!! Delay !!!!!!! -----> 2 seconds left");
+        yield return new WaitForSeconds(2f);
+
+        SceneManager.LoadScene("Menu");
+        GameManager.Instance.currentState = GameManager.GameState.Menu;
     }
 }

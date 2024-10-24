@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public enum GameState { Menu, Playing, Paused, GameOver, LevelComplete }
     public GameState currentState;
     private GameState auxState;
-    private bool isGamePaused = false;
+    public bool isGamePaused = false;
 
     private void Awake()
     {
@@ -38,8 +38,6 @@ public class GameManager : MonoBehaviour
     public void SaveGame()
     {
         Debug.Log("Entering SaveGame");
-        Debug.Log(ScoreManager.Instance.GetScore());
-        Debug.Log(ScoreManager.Instance.GetBestScore());
         GameData data = new GameData
         {
             score = ScoreManager.Instance.GetScore(),
@@ -50,8 +48,8 @@ public class GameManager : MonoBehaviour
             //currentLevel = SceneManager.GetActiveScene().name
         };
 
-        Debug.Log("Score: " + data.score);
-        Debug.Log("Score: " + data.bestScore);
+        Debug.Log("Score Saved: " + data.score);
+        Debug.Log("BestScore Saved: " + data.bestScore);
 
         SaveManager.Instance.SaveGame(data); // Guarda todos los datos usando SaveManager
     }
@@ -112,7 +110,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         currentState = GameState.GameOver;
-        SceneManager.LoadScene("Menu");
+        SceneManager.LoadScene("GameOver");
     }
 
     public void ToglePause()
