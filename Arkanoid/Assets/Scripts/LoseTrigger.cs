@@ -8,11 +8,29 @@ public class LoseTrigger : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (HeartManager.Instance.heartsLeft >= 1)
+        // Si es la pelota principal (Ball)
+        if (collision.CompareTag("Ball"))
         {
-            HeartManager.Instance.LoseHeart();
-            ball.ResetBall();
+            // Verificar si hay corazones restantes
+            if (HeartManager.Instance.heartsLeft >= 1)
+            {
+                HeartManager.Instance.LoseHeart();
+                ball.ResetBall();  // Resetea la pelota principal
+            }
+            else
+            {
+                GameManager.Instance.GameOver();  // Llamar al game over si no quedan corazones
+            }
         }
-        else GameManager.Instance.GameOver();
+        // Si es un PowerUpBall
+        else if (collision.CompareTag("PowerUpBall"))
+        {
+            Destroy(collision.gameObject);  // Destruir el PowerUpBall
+        }
+        // Si es un ExtraBall
+        else if (collision.CompareTag("ExtraBall"))
+        {
+            Destroy(collision.gameObject);  // Destruir el ExtraBall
+        }
     }
 }

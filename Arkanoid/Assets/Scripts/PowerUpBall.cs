@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PowerUpBall : MonoBehaviour
 {
-    public float fallSpeed = 5f; // Velocidad de caída
+    public float fallSpeed = 2f; // Velocidad de caída
     public float lifeTime = 5f; // Tiempo de vida de la pelota
 
     private void Start()
@@ -23,8 +23,9 @@ public class PowerUpBall : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            Debug.Log("Power-up touched Player");
             // Aquí llamas al método en el Player que crea una segunda pelota
-            Player.Instance.CreateSecondBall(); // Asegúrate de que este método exista en tu Player
+            Player.Instance.CreateExtraBall(); // Asegúrate de que este método exista en tu Player
 
             Destroy(gameObject); // Destruir la pelota después de que el jugador la toca
         }

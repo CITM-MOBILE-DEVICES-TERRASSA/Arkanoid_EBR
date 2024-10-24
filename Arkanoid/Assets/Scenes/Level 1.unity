@@ -336,6 +336,7 @@ MonoBehaviour:
   gameOverPanel: {fileID: 0}
   levelCompletePanel: {fileID: 0}
   pauseButton: {fileID: 0}
+  isPauseActive: 0
 --- !u!4 &315248690
 Transform:
   m_ObjectHideFlags: 0
@@ -519,7 +520,7 @@ MonoBehaviour:
   - {fileID: 1073909179739732582, guid: 51b0af48c8348394db8c9ece24060827, type: 3}
   - {fileID: 3592427356965879818, guid: e1e25ed81ec37d5468fdd362c6741b7a, type: 3}
   - {fileID: 4081277093248576957, guid: 0a3d54560c88829469b76fada91f435b, type: 3}
-  powerUpBallPrefab: {fileID: 5141213251162695166, guid: d99017967cc4bcd43b16e71be1625b07, type: 3}
+  powerUpBallPrefab: {fileID: 7107097609365975232, guid: d982b510d35c33741b5e73d1a4afefc9, type: 3}
 --- !u!4 &377483630
 Transform:
   m_ObjectHideFlags: 0
@@ -1786,6 +1787,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+  isGamePaused: 0
 --- !u!4 &1469313209
 Transform:
   m_ObjectHideFlags: 0

@@ -13,8 +13,7 @@ public class Player : MonoBehaviour
     private Ball ball;
     private float moveInput;
 
-    public GameObject ballPrefab; // Prefab de la pelota a disparar
-    public Transform shootPoint; // Punto desde donde se dispara la pelota
+    public GameObject extraBallPrefab; // Prefab de la pelota a disparar
 
 
     private void Awake()
@@ -60,9 +59,10 @@ public class Player : MonoBehaviour
         transform.position = playerPosition;
     }
 
-    public void CreateSecondBall()
+    public void CreateExtraBall()
     {
-        shootPoint.position = transform.position + new Vector3(0f, 0.5f, 0f);
-        Instantiate(ballPrefab, shootPoint.position, Quaternion.identity);                                                  // Crea una nueva pelota
+        // Crea la nueva pelota justo encima del jugador
+        Vector3 ballPosition = transform.position + new Vector3(0f, 0.5f, 0f);
+        Instantiate(extraBallPrefab, ballPosition, Quaternion.identity); // Crea una nueva pelota
     }
 }
