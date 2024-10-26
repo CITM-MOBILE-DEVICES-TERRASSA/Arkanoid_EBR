@@ -63,8 +63,7 @@ public class UIManager : MonoBehaviour
     public void ShowLevelComplete()
     {
         HideAllPanels();
-        if (levelCompletePanel != null) levelCompletePanel.SetActive(true);
-        //StartCoroutine(LevelCompleteDelay());
+        StartCoroutine(LevelCompleteDelay());
     }
 
     // Método para encontrar los paneles automáticamente después de que la escena haya sido cargada
@@ -113,7 +112,14 @@ public class UIManager : MonoBehaviour
         Debug.Log("!!!!!! Delay !!!!!!! -----> 2 seconds left");
         yield return new WaitForSeconds(2f);
 
-        SceneManager.LoadScene("Menu");
-        GameManager.Instance.currentState = GameManager.GameState.Menu;
+        if (GameManager.Instance.nextSceneIndex < SceneManager.sceneCountInBuildSettings)
+        {
+            SceneManager.LoadScene(GameManager.Instance.nextSceneIndex);
+        }
+        else
+        {
+            SceneManager.LoadScene("Level 1");  // Reinicia al primer nivel
+        }
+        GameManager.Instance.currentState = GameManager.GameState.Playing;
     }
 }

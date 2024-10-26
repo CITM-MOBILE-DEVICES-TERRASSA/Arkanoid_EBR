@@ -7,9 +7,8 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance; // Singleton para el AudioManager
 
-    [Header("Audio Sources")]
-    public AudioSource musicSource; // Para la música de fondo
-    public AudioSource sfxSource;   // Para efectos de sonido (SFX)
+    [Header("Audio Source")]
+    public AudioSource audioSource; // Para la música de fondo y los SFX
 
     [Header("Audio Clips")]
     public AudioClip backgroundMusic;   // Música de fondo
@@ -37,21 +36,21 @@ public class AudioManager : MonoBehaviour
     // Método para reproducir música de fondo
     public void PlayMusic(AudioClip clip)
     {
-        if (musicSource != null)
+        if (audioSource != null)
         {
-            musicSource.clip = clip;
-            musicSource.loop = true;
-            musicSource.Play();
+            audioSource.clip = clip;
+            audioSource.loop = true;
+            audioSource.Play();
         }
     }
 
     // Método para reproducir efectos de sonido
     public void PlaySFX(AudioClip clip)
     {
-        if (sfxSource != null)
+        if (audioSource != null)
         {
-            Debug.Log("Playing SFX: " + sfxSource);
-            sfxSource.PlayOneShot(clip);
+            Debug.Log("Playing SFX: " + audioSource);
+            audioSource.PlayOneShot(clip);
         }
     }
 
@@ -67,9 +66,9 @@ public class AudioManager : MonoBehaviour
     // Método para detener la música
     public void StopMusic()
     {
-        if (musicSource != null)
+        if (audioSource != null)
         {
-            musicSource.Stop();
+            audioSource.Stop();
         }
     }
 }

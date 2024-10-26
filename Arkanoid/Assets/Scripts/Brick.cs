@@ -20,10 +20,10 @@ public class Brick : MonoBehaviour
     public void TakeDamage()
     {
         health--;
-        AudioManager.Instance.PlaySFX(1);
 
         if (health <= 0)
         {
+            AudioManager.Instance.PlaySFX(1);
             Destroy(gameObject);
             BrickManager.Instance.BrickDestroyed(gameObject);
         }

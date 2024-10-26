@@ -9,5 +9,5 @@ public class GameData
     public int bestScore;
     //public float playerPositionX;
     //public float playerPositionY;
-    //public string currentLevel;
+    public int currentLevel;
 }

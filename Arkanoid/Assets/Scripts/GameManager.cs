@@ -7,13 +7,13 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    private ScoreManager scoreManager;
-    private SaveManager saveManager;
-
     public enum GameState { Menu, Playing, Paused, GameOver, LevelComplete }
     public GameState currentState;
     private GameState auxState;
     public bool isGamePaused = false;
+
+    public int nextSceneIndex;
+
 
     private void Awake()
     {
@@ -41,15 +41,16 @@ public class GameManager : MonoBehaviour
         GameData data = new GameData
         {
             score = ScoreManager.Instance.GetScore(),
-            bestScore = ScoreManager.Instance.GetBestScore()
+            bestScore = ScoreManager.Instance.GetBestScore(),
             //playerLives = HeartManager.Instance.GetLives(),
             //playerPositionX = Player.Instance.transform.position.x,
             //playerPositionY = Player.Instance.transform.position.y,
-            //currentLevel = SceneManager.GetActiveScene().name
+            currentLevel = nextSceneIndex
         };
 
         Debug.Log("Score Saved: " + data.score);
         Debug.Log("BestScore Saved: " + data.bestScore);
+        Debug.Log("Level " + data.currentLevel + " Saved");
 
         SaveManager.Instance.SaveGame(data); // Guarda todos los datos usando SaveManager
     }
@@ -88,16 +89,11 @@ public class GameManager : MonoBehaviour
     public void LoadNextLevel()
     {
         currentState = GameState.LevelComplete;
-        int nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
+        SceneManager.LoadScene("LevelComplete");
+        nextSceneIndex = SceneManager.GetActiveScene().buildIndex + 1;
 
-        if (nextSceneIndex < SceneManager.sceneCountInBuildSettings)
-        {
-            SceneManager.LoadScene(nextSceneIndex);
-        }
-        else
-        {
-            SceneManager.LoadScene("Level 1");  // Reinicia al primer nivel
-        }
+        SaveGame();
+        UpdateUI();
     }
 
     public void NewGame()
