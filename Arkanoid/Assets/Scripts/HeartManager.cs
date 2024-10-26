@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class HeartManager : MonoBehaviour
 {
@@ -59,5 +60,16 @@ public class HeartManager : MonoBehaviour
         };
 
         UpdateHeartIcons(); // Actualizar los íconos después de cargar la escena
+    }
+
+    public int GetHearts()
+    {
+        return heartsLeft;
+    }
+
+    public void SetHearts(int newHearts)
+    {
+        heartsLeft = newHearts; // Establece el puntaje actual
+        UpdateHeartIcons(); // Actualiza el UI
     }
 }

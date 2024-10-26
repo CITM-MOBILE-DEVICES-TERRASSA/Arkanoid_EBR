@@ -100,13 +100,13 @@ public class ScoreManager : MonoBehaviour
 
     public void SetScore(int newScore)
     {
-        score = newScore; // Establece el puntaje actual
-        UpdateScoreText(); // Actualiza el UI
+        //score = newScore;
+        UpdateScoreText();
     }
 
     public void SetBestScore(int newBestScore)
     {
-        bestScore = newBestScore; // Establece el mejor puntaje
-        UpdateScoreText(); // Actualiza el UI
+        bestScore = newBestScore;
+        UpdateScoreText();
     }
 }

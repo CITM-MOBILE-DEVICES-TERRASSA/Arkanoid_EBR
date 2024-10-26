@@ -72,7 +72,11 @@ public class BrickManager : MonoBehaviour
         {
             return Color.yellow;
         }
-        else if (health >= 3)
+        else if (health == 3)
+        {
+            return Color.cyan;
+        }
+        else if(health >= 4)
         {
             return Color.magenta;
         }
@@ -82,7 +86,7 @@ public class BrickManager : MonoBehaviour
     public void BrickDestroyed(GameObject brick)
     {
         bricksLeft--;
-        ScoreManager.Instance.AddScore(100);
+        ScoreManager.Instance.AddScore(5);
 
         // Aquí decides si se debe generar una pelota de poder
         if (Random.Range(0f, 1f) < 0.5f) // 50% de probabilidad de generar

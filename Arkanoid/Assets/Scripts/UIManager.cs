@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject levelCompletePanel;
     public GameObject pauseButton;
+    public GameObject newGameButton;
+    public GameObject continueButton;
 
     public bool isPauseActive = false;
 
@@ -49,6 +51,7 @@ public class UIManager : MonoBehaviour
         if (pauseMenuPanel != null)
         {
             pauseMenuPanel.SetActive(GameManager.Instance.isGamePaused);
+            Debug.Log(pauseMenuPanel);
             Time.timeScale = GameManager.Instance.isGamePaused ? 0 : 1; // Pausar/Reanudar el tiempo
         }
     }
@@ -76,12 +79,12 @@ public class UIManager : MonoBehaviour
     {
         yield return null;  // Espera un frame antes de intentar buscar los paneles
 
-        // Buscamos cada panel usando GameObject.Find para asignarlos automáticamente
-        mainMenuPanel = GameObject.Find("MainMenuPanel");
         pauseMenuPanel = GameObject.Find("PauseMenuPanel");
         gameOverPanel = GameObject.Find("GameOverPanel");
         levelCompletePanel = GameObject.Find("LevelCompletePanel");
         pauseButton = GameObject.Find("PauseButton");
+        newGameButton = GameObject.Find("NewGameButton");
+        continueButton = GameObject.Find("ContinueButton");
 
         // Asignar el botón de pausa al método del GameManager
         if (pauseButton != null)
@@ -90,8 +93,32 @@ public class UIManager : MonoBehaviour
             Button btn = pauseButton.GetComponent<Button>();
             if (btn != null)
             {
-                btn.onClick.RemoveAllListeners();  // Asegurarse de limpiar los oyentes anteriores
-                btn.onClick.AddListener(GameManager.Instance.ToglePause);  // Asignar el método
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(GameManager.Instance.ToglePause);  // Asignar la funcion
+            }
+        }
+
+        // Asignar el botón de NewGame al método del GameManager
+        if (newGameButton != null)
+        {
+            Debug.Log("New Game Button Found, assigning function...");
+            Button btn = newGameButton.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(GameManager.Instance.NewGame);  // Asigna el método NewGame
+            }
+        }
+
+        // Asignar el botón de Continue al método del GameManager
+        if (continueButton != null)
+        {
+            Debug.Log("Continue Button Found, assigning function...");
+            Button btn = continueButton.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(GameManager.Instance.Continue);  // Asigna el método Continue
             }
         }
 

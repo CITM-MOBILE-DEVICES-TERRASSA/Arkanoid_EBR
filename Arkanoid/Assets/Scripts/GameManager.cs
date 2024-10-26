@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     public GameState currentState;
     private GameState auxState;
     public bool isGamePaused = false;
+    public bool isNewGame = false;
 
     public int nextSceneIndex;
 
@@ -37,20 +38,20 @@ public class GameManager : MonoBehaviour
 
     public void SaveGame()
     {
-        Debug.Log("Entering SaveGame");
         GameData data = new GameData
         {
             score = ScoreManager.Instance.GetScore(),
             bestScore = ScoreManager.Instance.GetBestScore(),
-            //playerLives = HeartManager.Instance.GetLives(),
-            //playerPositionX = Player.Instance.transform.position.x,
-            //playerPositionY = Player.Instance.transform.position.y,
+            playerLives = HeartManager.Instance.GetHearts(),
             currentLevel = nextSceneIndex
         };
 
+        Debug.Log("---------- Game Saved! ---------");
         Debug.Log("Score Saved: " + data.score);
         Debug.Log("BestScore Saved: " + data.bestScore);
+        Debug.Log("Player lives Saved: " + data.playerLives);
         Debug.Log("Level " + data.currentLevel + " Saved");
+        Debug.Log("--------------------------------");
 
         SaveManager.Instance.SaveGame(data); // Guarda todos los datos usando SaveManager
     }
@@ -62,17 +63,22 @@ public class GameManager : MonoBehaviour
         {
             ScoreManager.Instance.SetScore(data.score);
             ScoreManager.Instance.SetBestScore(data.bestScore);
-            //HeartManager.Instance.SetLives(data.playerLives);
-            //Player.Instance.transform.position = new Vector3(data.playerPositionX, data.playerPositionY, 0);
+            HeartManager.Instance.SetHearts(data.playerLives);
             //SceneManager.LoadScene(data.currentLevel);
         }
+
+        Debug.Log("---------- Game Loaded! ---------");
+        Debug.Log("Score Loaded: " + data.score);
+        Debug.Log("BestScore Loaded: " + data.bestScore);
+        Debug.Log("Player lives Loaded: " + data.playerLives);
+        Debug.Log("Level " + data.currentLevel + " Loaded");
+        Debug.Log("---------------------------------");
     }
 
     private void OnApplicationQuit()
     {
         Debug.Log("Calling SaveGame");
         SaveGame(); // Guardar automáticamente al salir
-        Debug.Log("SaveGame Finished");
     }
 
     // Se asegura de que OnSceneLoaded se llame al terminar de cargar una nueva escena
@@ -98,9 +104,9 @@ public class GameManager : MonoBehaviour
 
     public void NewGame()
     {
-        SceneManager.LoadScene("Level 1");
         currentState = GameState.Playing;
-        Time.timeScale = 1;
+        SceneManager.LoadScene("Level 1");
+        UpdateUI();
     }
 
     public void GameOver()
@@ -127,6 +133,20 @@ public class GameManager : MonoBehaviour
 
         UpdateUI();
         Debug.Log(isGamePaused ? "Game Paused" : "Game Resumed");
+    }
+
+    public void Menu()
+    {
+        SaveGame();
+        currentState = GameState.Menu;
+        SceneManager.LoadScene("Menu");
+    }
+
+    public void Continue()
+    {
+        LoadGame();
+        currentState = GameState.Playing;
+        SceneManager.LoadScene(nextSceneIndex);
     }
 
     private void UpdateUI()
