@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ExtraBall : MonoBehaviour
 {
-    [SerializeField] private float velocityMultiplayer = 1.01f;
+    [SerializeField] private float velocityMultiplier = 1.01f;
     [SerializeField] private Transform player;
     public float Seconds = 1f;
     private Vector2 initialVelocity;
@@ -49,7 +49,7 @@ public class ExtraBall : MonoBehaviour
                 brick.TakeDamage();
             }
 
-            ballRb.velocity *= velocityMultiplayer;
+            ballRb.velocity *= velocityMultiplier;
         }
 
         AudioManager.Instance.PlaySFX(0);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] private float velocityMultiplayer = 1.01f;
+    [SerializeField] private float velocityMultiplier = 1.01f;
     [SerializeField] private Transform player;
     public float Seconds = 2f;
     private Vector2 initialVelocity;
@@ -49,7 +49,7 @@ public class Ball : MonoBehaviour
                 brick.TakeDamage();
             }
 
-            ballRb.velocity *= velocityMultiplayer;
+            ballRb.velocity *= velocityMultiplier;
         }
 
         AudioManager.Instance.PlaySFX(0);                                               // Reproducir efecto de sonido para la colisión de la pelota
